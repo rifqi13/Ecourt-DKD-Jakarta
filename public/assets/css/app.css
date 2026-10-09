@@ -1,0 +1,55 @@
+body { font-family: 'Segoe UI', system-ui, sans-serif; }
+
+.sidebar .nav-link {
+    color: #334155;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 4px;
+    font-size: 14px;
+    transition: all .15s;
+}
+.sidebar .nav-link:hover {
+    background: #eef2ff;
+    color: #1e3a8a;
+}
+.sidebar .nav-link.active {
+    background: #1e40af;
+    color: #fff;
+    font-weight: 600;
+}
+.sidebar .nav-link i { width: 20px; }
+
+.card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.03);
+}
+.card-header { border-bottom: 1px solid #e2e8f0; font-weight: 600; }
+
+.stat-card .icon {
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 10px; font-size: 22px;
+}
+
+/* Timeline untuk jadwal */
+.timeline { position: relative; padding-left: 40px; }
+.timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 2px; background: #cbd5e1;
+}
+.timeline-item { position: relative; margin-bottom: 24px; }
+.timeline-item::before {
+    content: ''; position: absolute; left: -30px; top: 6px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #1e40af; border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #1e40af;
+}
+.timeline-item.done::before { background: #16a34a; box-shadow: 0 0 0 2px #16a34a; }
+.timeline-item.pending::before { background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; }
+/* Sudah ada di Step 2, tambahkan: */
+.timeline-item .card {
+    border-left: 3px solid #1e40af;
+}
+.timeline-item.done .card { border-left-color: #16a34a; }
+.timeline-item.pending .card { border-left-color: #f59e0b; }
