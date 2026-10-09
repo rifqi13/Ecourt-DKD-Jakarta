@@ -1,61 +1,66 @@
-# CodeIgniter 4 Framework
+# Aplikasi E-Court Dewan Kehormatan Daerah (DKD) — Version CI4
 
-## What is CodeIgniter?
+Aplikasi E-Court adalah sistem informasi persidangan etik berbasis web yang dibangun untuk memfasilitasi proses pengaduan, verifikasi, penjadwalan sidang, pengelolaan bukti, hingga pembacaan putusan secara elektronik.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+Sistem ini dikembangkan menggunakan framework **CodeIgniter 4**, antarmuka **Bootstrap**, dan database **MySQL**.
 
-This repository holds the distributable version of the framework.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+---
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+##  Fitur Utama & Role
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+1. **Landing Page & Informasi**: Halaman publik berisi informasi tata cara dan alur persidangan e-court.
+2. **Registrasi Pengadu**: Pendaftaran akun pengadu disertai lembar persetujuan penggunaan layanan E-Court secara elektronik.
+3. **Manajemen Hak Akses & Role (Dapat Diatur Admin)**:
+   - **Admin**: Akses penuh ke seluruh sistem, manajemen pengguna, dan pengaturan modul/fitur per role.
+   - **Panitera**: Mengelola berkas pengaduan, verifikasi, jadwal sidang, penomoran registrasi, konfirmasi pembayaran administrasi, serta pembuatan akun Pengadu, Teradu, dan Majelis.
+   - **Pengadu**: Mengunggah berkas pengaduan, daftar/file bukti, kesimpulan, melihat linimasa sidang, dan menerima salinan putusan.
+   - **Teradu**: Mengunggah jawaban pengaduan, daftar/file bukti, kesimpulan, melihat linimasa sidang, dan menerima salinan putusan.
+   - **Majelis**: Memeriksa seluruh berkas aduan/jawaban, menyetujui (*approve*) bukti dari kedua belah pihak, serta memantau jadwal/linimasa persidangan.
+4. **Dashboard Informatif**: Tampilan statistik dan ringkasan kasus yang dinamis sesuai role yang sedang login.
+5. **Linimasa Sidang Interaktif**: Penjadwalan sidang berbasis *timeline* interaktif yang dilengkapi fitur komentar dan unggah dokumen pendukung.
 
-## Important Change with index.php
+---
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+##  Alur Kerja Persidangan
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+1. **Penginputan Aduan & Akun Teradu**:
+   - Pengadu mengisi identitas diri dan identitas Teradu, mengunggah dokumen pengaduan (PDF/Word), serta melampirkan berkas bukti (PDF, Word, Gambar, Video).
+   - Sistem merekap daftar bukti yang dapat diekspor menjadi PDF.
+   - Akun Teradu ter-generate secara otomatis (username & password dikelola Panitera). Saat Teradu login pertama kali, wajib menyetujui persetujuan persidangan elektronik.
+2. **Verifikasi & Penomoran Awal**:
+   - Panitera memverifikasi kelengkapan berkas aduan dan bukti.
+   - Jika lengkap, Panitera memproses **Nomor Register** otomatis (Format: `[Urutan]/DKD/DKI/[Nomor Input]-[Tahun]`).
+3. **Hearing & Pembayaran Administrasi**:
+   - Panitera membuat jadwal hearing dan menunjuk 1 orang Majelis Hearing.
+   - Pengadu memperbaiki pengaduan berdasarkan catatan/koreksi Majelis.
+   - Setelah sesuai, Panitera menerbitkan Surat Pemberitahuan Biaya Perkara. Pengadu melakukan pembayaran administrasi sebesar **Rp 5.000.000,-** via Payment Gateway (DOKU/Midtrans).
+4. **Penomoran Registrasi Perkara**:
+   - Setelah pembayaran terkonfirmasi, Panitera menerbitkan **Nomor Registrasi Perkara** resmi (Format: `No.[Urutan]/PERADI/DKD-JAKARTA/[Tahun]`). Nomor Register awal tetap disimpan sebagai riwayat.
+5. **Penyampaian Jawaban Teradu**:
+   - Panitera mengirimkan Surat Pengaduan dan Permintaan Jawaban kepada Teradu.
+   - Teradu memiliki batas waktu **21 hari kerja** untuk menjawab. Jika belum ada respon, Panitera mengirimkan surat peringatan dengan batas waktu **14 hari kerja**.
+   - Jika batas waktu habis tanpa jawaban, Teradu dianggap melepas hak jawabnya dan persidangan tetap dilanjutkan.
+6. **Persidangan & Pembacaan Putusan**:
+   - **Sidang I**: Pemeriksaan berkas pengaduan, jawaban, dan bukti oleh Majelis.
+   - **Sidang II**: Pembuktian lanjutan dan verifikasi bukti.
+   - **Sidang III**: Pengunggahan berkas Kesimpulan oleh Pengadu dan Teradu (file bersifat tertutup, hanya dapat dilihat oleh masing-masing pihak dan Majelis).
+   - **Sidang IV**: Pembacaan Putusan. Panitera mengunggah salinan Putusan resmi yang dapat diakses oleh Pengadu dan Teradu.
 
-**Please** read the user guide for a better explanation of how CI4 works!
+---
 
-## Repository Management
+## 💻 Persyaratan Server (Requirements)
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+- **PHP**: Version 8.1 atau lebih baru
+- **Ekstensi PHP Wajib**: `intl`, `mbstring`, `json`, `curl`, `gd`, `mysqli`
+- **Database**: MySQL 5.7+ / MariaDB 10.3+
+- **Web Server**: Apache / Nginx
+- **Composer**: Terinstal pada server/komputer lokal
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+---
 
-## Contributing
+## ⚙️ Cara Instalasi (CodeIgniter 4)
 
-We welcome contributions from the community.
-
-Please read the [*Contributing to CodeIgniter*](https://github.com/codeigniter4/CodeIgniter4/blob/develop/CONTRIBUTING.md) section in the development repository.
-
-## Server Requirements
-
-PHP version 8.2 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+1. **Kloning Repository**:
+   ```bash
+   git clone [https://github.com/username/Ecourt-DKD-Jakarta-CI4-Version.git](https://github.com/username/Ecourt-DKD-Jakarta-CI4-Version.git)
+   cd Ecourt-DKD-Jakarta-CI4-Version
